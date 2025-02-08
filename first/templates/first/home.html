@@ -1,0 +1,35 @@
+{% extends "first/base.html" %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-primary">Add a Hobby</h2>
+
+        <form method="post" class="mb-4">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Hobby</label>
+                {{ form.hobby }}
+                {% if form.hobby.errors %}
+                    <div class="text-danger">{{ form.hobby.errors.0 }}</div>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <h2 class="mt-4">Your Hobbies:</h2>
+        <ul class="list-group">
+            {% for hobby in hobbies %}
+                <li class="list-group-item">
+                    {{ hobby.hobby }}
+                    <a href="{% url 'delete_hobby' hobby.id %}" class="btn btn-danger btn-sm float-end">Delete</a>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">No hobbies recorded yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+
